@@ -1,0 +1,90 @@
+<div class="flex-between mb-2">
+  <div class="breadcrumb">
+    <a href="/">Dashboard</a> <span class="separator">/</span> Allocations
+  </div>
+  <div class="btn-group">
+    <a href="/allocations/fee-summary" class="btn btn-outline">💰 Fee Summary</a>
+    <a href="/allocations/add" class="btn btn-primary">+ Allocate Room</a>
+  </div>
+</div>
+
+<!-- Filters -->
+<form action="/allocations" method="GET" class="toolbar">
+  <div class="search-box">
+    <span class="search-icon">🔍</span>
+    <input type="text" name="search" placeholder="Search student name or ID..." value="<%= query.search || '' %>" data-table-search="allocationsTable">
+  </div>
+  <select name="hostel" class="filter-auto-submit">
+    <option value="">All Hostels</option>
+    <% hostels.forEach(h => { %>
+      <option value="<%= h._id %>" <%= query.hostel === h._id.toString() ? 'selected' : '' %>><%= h.name %></option>
+    <% }); %>
+  </select>
+  <select name="status" class="filter-auto-submit">
+    <option value="">All Status</option>
+    <option value="active" <%= query.status === 'active' ? 'selected' : '' %>>Active</option>
+    <option value="vacated" <%= query.status === 'vacated' ? 'selected' : '' %>>Vacated</option>
+  </select>
+  <select name="roomType" class="filter-auto-submit">
+    <option value="">All Room Types</option>
+    <option value="single" <%= query.roomType === 'single' ? 'selected' : '' %>>Single</option>
+    <option value="double" <%= query.roomType === 'double' ? 'selected' : '' %>>Double</option>
+    <option value="triple" <%= query.roomType === 'triple' ? 'selected' : '' %>>Triple</option>
+  </select>
+</form>
+
+<div class="card">
+  <div class="card-body no-padding">
+    <% if (allocations.length === 0) { %>
+      <div class="empty-state">
+        <div class="empty-icon">🔑</div>
+        <h3>No allocations found</h3>
+        <p>Start by allocating a room to a student.</p>
+        <a href="/allocations/add" class="btn btn-primary">+ Allocate Room</a>
+      </div>
+    <% } else { %>
+      <div class="table-container">
+        <table id="allocationsTable">
+          <thead>
+            <tr>
+              <th>Student</th>
+              <th>Student ID</th>
+              <th>Room</th>
+              <th>Hostel</th>
+              <th>Allocated On</th>
+              <th>Fees Due</th>
+              <th>Fees Paid</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% allocations.forEach(a => { %>
+              <tr>
+                <td style="font-weight:600;"><%= a.studentId ? a.studentId.name : 'N/A' %></td>
+                <td><span class="badge badge-primary"><%= a.studentId ? a.studentId.studentId : 'N/A' %></span></td>
+                <td><%= a.roomId ? a.roomId.roomNumber : 'N/A' %></td>
+                <td><%= a.hostelId ? a.hostelId.name : 'N/A' %></td>
+                <td><%= new Date(a.allocationDate).toLocaleDateString('en-IN') %></td>
+                <td>₹<%= a.totalFeesDue.toLocaleString('en-IN') %></td>
+                <td>₹<%= a.totalFeesPaid.toLocaleString('en-IN') %></td>
+                <td><span class="badge status-<%= a.status %>"><%= a.status %></span></td>
+                <td>
+                  <div class="btn-group">
+                    <a href="/allocations/<%= a._id %>" class="btn btn-outline btn-sm">View</a>
+                    <% if (a.status === 'active') { %>
+                      <a href="/allocations/<%= a._id %>/payment" class="btn btn-success btn-sm">💰 Pay</a>
+                      <form action="/allocations/<%= a._id %>/vacate" method="POST" class="vacate-form" style="display:inline;">
+                        <button type="submit" class="btn btn-warning btn-sm">Vacate</button>
+                      </form>
+                    <% } %>
+                  </div>
+                </td>
+              </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
+    <% } %>
+  </div>
+</div>

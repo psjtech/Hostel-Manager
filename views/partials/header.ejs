@@ -1,0 +1,13 @@
+<header class="top-header">
+  <div style="display:flex;align-items:center;gap:12px;">
+    <button class="mobile-toggle" id="sidebarToggle">☰</button>
+    <div class="page-title-section">
+      <h1><%= typeof title !== 'undefined' ? title : 'Hostel Manager' %></h1>
+    </div>
+  </div>
+  <div class="header-actions">
+    <span style="font-size:0.8rem;color:var(--gray-500);">
+      <%= new Date().toLocaleDateString('en-IN', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' }) %>
+    </span>
+  </div>
+</header>

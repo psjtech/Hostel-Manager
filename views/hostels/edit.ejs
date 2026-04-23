@@ -1,0 +1,56 @@
+<div class="breadcrumb mb-2">
+  <a href="/">Dashboard</a> <span class="separator">/</span>
+  <a href="/hostels">Hostels</a> <span class="separator">/</span>
+  <a href="/hostels/<%= hostel._id %>"><%= hostel.name %></a> <span class="separator">/</span>
+  Edit
+</div>
+
+<div class="card" style="max-width:700px;">
+  <div class="card-header">
+    <h2>✏️ Edit Hostel</h2>
+  </div>
+  <div class="card-body">
+    <form action="/hostels/<%= hostel._id %>" method="POST">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="name">Hostel Name *</label>
+          <input type="text" class="form-control" id="name" name="name" value="<%= hostel.name %>" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="type">Type *</label>
+          <select class="form-control" id="type" name="type" required>
+            <option value="boys" <%= hostel.type === 'boys' ? 'selected' : '' %>>Boys</option>
+            <option value="girls" <%= hostel.type === 'girls' ? 'selected' : '' %>>Girls</option>
+            <option value="mixed" <%= hostel.type === 'mixed' ? 'selected' : '' %>>Mixed</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="address">Address *</label>
+        <input type="text" class="form-control" id="address" name="address" value="<%= hostel.address %>" required>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="totalRooms">Total Rooms *</label>
+        <input type="number" class="form-control" id="totalRooms" name="totalRooms" min="1" value="<%= hostel.totalRooms %>" required>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="wardenName">Warden Name *</label>
+          <input type="text" class="form-control" id="wardenName" name="wardenName" value="<%= hostel.warden.name %>" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="wardenContact">Warden Contact *</label>
+          <input type="text" class="form-control" id="wardenContact" name="wardenContact" value="<%= hostel.warden.contact %>" required>
+        </div>
+      </div>
+
+      <div class="btn-group mt-2">
+        <button type="submit" class="btn btn-primary btn-lg">Update Hostel</button>
+        <a href="/hostels/<%= hostel._id %>" class="btn btn-outline">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>

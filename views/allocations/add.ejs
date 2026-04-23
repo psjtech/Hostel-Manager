@@ -1,0 +1,64 @@
+<div class="breadcrumb mb-2">
+  <a href="/">Dashboard</a> <span class="separator">/</span>
+  <a href="/allocations">Allocations</a> <span class="separator">/</span> Allocate Room
+</div>
+
+<div class="card" style="max-width:700px;">
+  <div class="card-header">
+    <h2>🔑 Allocate Room to Student</h2>
+  </div>
+  <div class="card-body">
+    <% if (students.length === 0) { %>
+      <div class="info-box info-amber">
+        ⚠️ All students already have active room allocations, or no students exist in the system.
+      </div>
+    <% } %>
+
+    <form action="/allocations" method="POST">
+      <div class="form-group">
+        <label class="form-label" for="studentId">Student *</label>
+        <select class="form-control" id="studentId" name="studentId" required>
+          <option value="">-- Select Student --</option>
+          <% students.forEach(s => { %>
+            <option value="<%= s._id %>"><%= s.name %> (<%= s.studentId %>)</option>
+          <% }); %>
+        </select>
+        <span class="form-hint">Only students without active allocations are shown</span>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="hostelSelect">Hostel *</label>
+          <select class="form-control" id="hostelSelect" name="hostelId" required>
+            <option value="">-- Select Hostel --</option>
+            <% hostels.forEach(h => { %>
+              <option value="<%= h._id %>"><%= h.name %></option>
+            <% }); %>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="roomSelect">Room *</label>
+          <select class="form-control" id="roomSelect" name="roomId" required>
+            <option value="">-- Select Room --</option>
+            <% rooms.forEach(r => { %>
+              <option value="<%= r._id %>" data-hostel="<%= r.hostelId ? r.hostelId._id : '' %>">
+                <%= r.roomNumber %> - <%= r.roomType %> (<%=r.hostelId ? r.hostelId.name : '' %>) [<%= r.occupiedCount %>/<%= r.capacity %>] - ₹<%= r.monthlyFee %>
+              </option>
+            <% }); %>
+          </select>
+          <span class="form-hint">Rooms filter by selected hostel</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="allocationDate">Allocation Date *</label>
+        <input type="date" class="form-control" id="allocationDate" name="allocationDate" value="<%= new Date().toISOString().split('T')[0] %>" required>
+      </div>
+
+      <div class="btn-group mt-2">
+        <button type="submit" class="btn btn-primary btn-lg">Allocate Room</button>
+        <a href="/allocations" class="btn btn-outline">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,82 @@
+<div class="breadcrumb mb-2">
+  <a href="/">Dashboard</a> <span class="separator">/</span>
+  <a href="/complaints">Complaints</a> <span class="separator">/</span> Raise Complaint
+</div>
+
+<div class="card" style="max-width:700px;">
+  <div class="card-header">
+    <h2>📋 Raise a Complaint</h2>
+  </div>
+  <div class="card-body">
+    <form action="/complaints" method="POST">
+      <div class="form-group">
+        <label class="form-label" for="studentId">Student *</label>
+        <select class="form-control" id="studentId" name="studentId" required>
+          <option value="">-- Select Student --</option>
+          <% students.forEach(s => { %>
+            <option value="<%= s._id %>"><%= s.name %> (<%= s.studentId %>)</option>
+          <% }); %>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="hostelId">Hostel *</label>
+          <select class="form-control" id="hostelId" name="hostelId" required>
+            <option value="">-- Select Hostel --</option>
+            <% hostels.forEach(h => { %>
+              <option value="<%= h._id %>"><%= h.name %></option>
+            <% }); %>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="roomId">Room *</label>
+          <select class="form-control" id="roomId" name="roomId" required>
+            <option value="">-- Select Room --</option>
+            <% rooms.forEach(r => { %>
+              <option value="<%= r._id %>"><%= r.roomNumber %> (<%= r.hostelId ? r.hostelId.name : '' %>)</option>
+            <% }); %>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="title">Title *</label>
+        <input type="text" class="form-control" id="title" name="title" placeholder="e.g. Water leakage in bathroom" required>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="description">Description *</label>
+        <textarea class="form-control" id="description" name="description" placeholder="Describe the issue in detail..." required></textarea>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="category">Category *</label>
+          <select class="form-control" id="category" name="category" required>
+            <option value="">-- Select Category --</option>
+            <option value="maintenance">Maintenance</option>
+            <option value="hygiene">Hygiene</option>
+            <option value="security">Security</option>
+            <option value="food">Food</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="priority">Priority *</label>
+          <select class="form-control" id="priority" name="priority" required>
+            <option value="">-- Select Priority --</option>
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="btn-group mt-2">
+        <button type="submit" class="btn btn-primary btn-lg">Submit Complaint</button>
+        <a href="/complaints" class="btn btn-outline">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>

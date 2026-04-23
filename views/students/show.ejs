@@ -1,0 +1,135 @@
+<div class="breadcrumb mb-2">
+  <a href="/">Dashboard</a> <span class="separator">/</span>
+  <a href="/students">Students</a> <span class="separator">/</span>
+  <%= student.name %>
+</div>
+
+<div class="card mb-3">
+  <div class="card-header">
+    <h2>🎓 <%= student.name %></h2>
+    <div class="btn-group">
+      <a href="/students/<%= student._id %>/edit" class="btn btn-primary btn-sm">✏️ Edit</a>
+      <form action="/students/<%= student._id %>/delete" method="POST" class="delete-form" style="display:inline;">
+        <button type="submit" class="btn btn-danger btn-sm">🗑️ Delete</button>
+      </form>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="detail-grid">
+      <div class="detail-item">
+        <span class="detail-label">Student ID</span>
+        <span class="detail-value"><span class="badge badge-primary"><%= student.studentId %></span></span>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">Email</span>
+        <span class="detail-value"><%= student.email %></span>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">Phone</span>
+        <span class="detail-value"><%= student.phone %></span>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">Course</span>
+        <span class="detail-value"><%= student.course %></span>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">Year</span>
+        <span class="detail-value">Year <%= student.year %></span>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">Parent Contact</span>
+        <span class="detail-value"><%= student.parentContact %></span>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">Address</span>
+        <span class="detail-value"><%= student.address %></span>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">Joined</span>
+        <span class="detail-value"><%= new Date(student.createdAt).toLocaleDateString('en-IN') %></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Allocation History -->
+<div class="card mb-3">
+  <div class="card-header">
+    <h2>🔑 Allocation History</h2>
+  </div>
+  <div class="card-body no-padding">
+    <% if (allocations.length === 0) { %>
+      <div class="empty-state" style="padding:30px;">
+        <p>No allocation records for this student.</p>
+      </div>
+    <% } else { %>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Hostel</th>
+              <th>Room</th>
+              <th>Allocated</th>
+              <th>Vacated</th>
+              <th>Status</th>
+              <th>Fees Paid</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% allocations.forEach(a => { %>
+              <tr>
+                <td><%= a.hostelId ? a.hostelId.name : 'N/A' %></td>
+                <td><%= a.roomId ? a.roomId.roomNumber : 'N/A' %></td>
+                <td><%= new Date(a.allocationDate).toLocaleDateString('en-IN') %></td>
+                <td><%= a.vacatingDate ? new Date(a.vacatingDate).toLocaleDateString('en-IN') : '-' %></td>
+                <td><span class="badge status-<%= a.status %>"><%= a.status %></span></td>
+                <td>₹<%= a.totalFeesPaid.toLocaleString('en-IN') %></td>
+                <td><a href="/allocations/<%= a._id %>" class="btn btn-outline btn-sm">Details</a></td>
+              </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
+    <% } %>
+  </div>
+</div>
+
+<!-- Complaints -->
+<div class="card">
+  <div class="card-header">
+    <h2>📋 Complaints</h2>
+  </div>
+  <div class="card-body no-padding">
+    <% if (complaints.length === 0) { %>
+      <div class="empty-state" style="padding:30px;">
+        <p>No complaints from this student.</p>
+      </div>
+    <% } else { %>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Category</th>
+              <th>Priority</th>
+              <th>Status</th>
+              <th>Raised On</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% complaints.forEach(c => { %>
+              <tr>
+                <td><a href="/complaints/<%= c._id %>"><%= c.title %></a></td>
+                <td><span class="badge badge-gray"><%= c.category %></span></td>
+                <td><span class="badge priority-<%= c.priority %>"><%= c.priority %></span></td>
+                <td><span class="badge status-<%= c.status %>"><%= c.status %></span></td>
+                <td><%= new Date(c.raisedOn).toLocaleDateString('en-IN') %></td>
+              </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
+    <% } %>
+  </div>
+</div>

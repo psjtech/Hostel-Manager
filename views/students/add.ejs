@@ -1,0 +1,69 @@
+<div class="breadcrumb mb-2">
+  <a href="/">Dashboard</a> <span class="separator">/</span>
+  <a href="/students">Students</a> <span class="separator">/</span> Add Student
+</div>
+
+<div class="card" style="max-width:700px;">
+  <div class="card-header">
+    <h2>🎓 Add New Student</h2>
+  </div>
+  <div class="card-body">
+    <form action="/students" method="POST">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="name">Full Name *</label>
+          <input type="text" class="form-control" id="name" name="name" placeholder="e.g. Rahul Sharma" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="studentId">Student ID *</label>
+          <input type="text" class="form-control" id="studentId" name="studentId" placeholder="e.g. STU001" required>
+          <span class="form-hint">Must be unique</span>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="email">Email *</label>
+          <input type="email" class="form-control" id="email" name="email" placeholder="student@email.com" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="phone">Phone *</label>
+          <input type="text" class="form-control" id="phone" name="phone" placeholder="e.g. 9876543210" required>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="course">Course *</label>
+          <input type="text" class="form-control" id="course" name="course" placeholder="e.g. B.Tech CSE" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="year">Year *</label>
+          <select class="form-control" id="year" name="year" required>
+            <option value="">-- Select Year --</option>
+            <option value="1">1st Year</option>
+            <option value="2">2nd Year</option>
+            <option value="3">3rd Year</option>
+            <option value="4">4th Year</option>
+            <option value="5">5th Year</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="parentContact">Parent Contact *</label>
+        <input type="text" class="form-control" id="parentContact" name="parentContact" placeholder="Parent phone number" required>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="address">Address *</label>
+        <textarea class="form-control" id="address" name="address" placeholder="Full home address" required></textarea>
+      </div>
+
+      <div class="btn-group mt-2">
+        <button type="submit" class="btn btn-primary btn-lg">Add Student</button>
+        <a href="/students" class="btn btn-outline">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>

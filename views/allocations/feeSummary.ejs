@@ -1,0 +1,65 @@
+<div class="breadcrumb mb-2">
+  <a href="/">Dashboard</a> <span class="separator">/</span>
+  <a href="/allocations">Allocations</a> <span class="separator">/</span> Fee Summary
+</div>
+
+<div class="card">
+  <div class="card-header">
+    <h2>💰 Fee Summary — <%= currentMonth %> <%= currentYear %></h2>
+  </div>
+  <div class="card-body no-padding">
+    <% if (summary.length === 0) { %>
+      <div class="empty-state">
+        <div class="empty-icon">💰</div>
+        <h3>No active allocations</h3>
+        <p>There are no active room allocations to show fee details for.</p>
+      </div>
+    <% } else { %>
+      <div class="info-box info-blue" style="margin:16px;">
+        ℹ️ Students highlighted in <strong style="color:#991b1b;">red</strong> have not paid the fee for <strong><%= currentMonth %> <%= currentYear %></strong>.
+      </div>
+      <div class="table-container">
+        <table id="feeSummaryTable">
+          <thead>
+            <tr>
+              <th>Student</th>
+              <th>Student ID</th>
+              <th>Room</th>
+              <th>Hostel</th>
+              <th>Total Due</th>
+              <th>Total Paid</th>
+              <th>Balance</th>
+              <th>Current Month</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% summary.forEach(s => { %>
+              <tr class="<%= s.isOverdue ? 'overdue' : '' %>">
+                <td style="font-weight:600;"><%= s.studentId ? s.studentId.name : 'N/A' %></td>
+                <td><span class="badge badge-primary"><%= s.studentId ? s.studentId.studentId : '' %></span></td>
+                <td><%= s.roomId ? s.roomId.roomNumber : 'N/A' %></td>
+                <td><%= s.hostelId ? s.hostelId.name : 'N/A' %></td>
+                <td>₹<%= s.totalFeesDue.toLocaleString('en-IN') %></td>
+                <td>₹<%= s.totalFeesPaid.toLocaleString('en-IN') %></td>
+                <td style="font-weight:700;color:<%= s.balance > 0 ? '#991b1b' : '#065f46' %>">
+                  ₹<%= s.balance.toLocaleString('en-IN') %>
+                </td>
+                <td>
+                  <% if (s.isOverdue) { %>
+                    <span class="badge badge-danger">OVERDUE</span>
+                  <% } else { %>
+                    <span class="badge badge-success">PAID</span>
+                  <% } %>
+                </td>
+                <td>
+                  <a href="/allocations/<%= s._id %>/payment" class="btn btn-success btn-sm">💰 Pay</a>
+                </td>
+              </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
+    <% } %>
+  </div>
+</div>

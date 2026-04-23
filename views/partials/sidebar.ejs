@@ -1,0 +1,39 @@
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-brand" style="padding: 20px 0; text-align: center; display: flex; justify-content: center;">
+    <div style="background-color: #ffffff; padding: 10px 15px; border-radius: 8px; display: inline-block;">
+      <img 
+        src="https://www.goodhostspaces.com/wp-content/uploads/2024/03/GHSlogoFinal-011-1-300x147.png.webp" 
+        alt="GHS Good Host Spaces Logo" 
+        style="max-width: 100%; height: auto; max-height: 50px; display: block;" 
+      />
+    </div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section-title">Main</div>
+    <a href="/" class="nav-link <%= currentPath === '/' ? 'active' : '' %>">
+      <span class="nav-icon">📊</span> Dashboard
+    </a>
+
+    <div class="nav-section-title">Management</div>
+    <a href="/hostels" class="nav-link <%= currentPath.startsWith('/hostels') ? 'active' : '' %>">
+      <span class="nav-icon">🏢</span> Hostels
+    </a>
+    <a href="/rooms" class="nav-link <%= currentPath.startsWith('/rooms') ? 'active' : '' %>">
+      <span class="nav-icon">🚪</span> Rooms
+    </a>
+    <a href="/students" class="nav-link <%= currentPath.startsWith('/students') ? 'active' : '' %>">
+      <span class="nav-icon">🎓</span> Students
+    </a>
+
+    <div class="nav-section-title">Operations</div>
+    <a href="/allocations" class="nav-link <%= currentPath.startsWith('/allocations') && !currentPath.includes('fee-summary') ? 'active' : '' %>">
+      <span class="nav-icon">🔑</span> Allocations
+    </a>
+    <a href="/allocations/fee-summary" class="nav-link <%= currentPath.includes('fee-summary') ? 'active' : '' %>">
+      <span class="nav-icon">💰</span> Fee Payments
+    </a>
+    <a href="/complaints" class="nav-link <%= currentPath.startsWith('/complaints') ? 'active' : '' %>">
+      <span class="nav-icon">📋</span> Complaints
+    </a>
+  </nav>
+</aside>

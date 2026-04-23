@@ -1,0 +1,49 @@
+<div class="breadcrumb mb-2">
+  <a href="/">Dashboard</a> <span class="separator">/</span>
+  <a href="/allocations">Allocations</a> <span class="separator">/</span>
+  <a href="/allocations/<%= allocation._id %>">Allocation</a> <span class="separator">/</span> Record Payment
+</div>
+
+<div class="card" style="max-width:600px;">
+  <div class="card-header">
+    <h2>💰 Record Fee Payment</h2>
+  </div>
+  <div class="card-body">
+    <div class="info-box info-blue mb-3">
+      <div>
+        <strong>Student:</strong> <%= allocation.studentId.name %> (<%= allocation.studentId.studentId %>)<br>
+        <strong>Room:</strong> <%= allocation.roomId.roomNumber %> — <%= allocation.hostelId.name %><br>
+        <strong>Monthly Fee:</strong> ₹<%= allocation.roomId.monthlyFee.toLocaleString('en-IN') %>
+      </div>
+    </div>
+
+    <form action="/allocations/<%= allocation._id %>/payment" method="POST">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="month">Month *</label>
+          <select class="form-control" id="month" name="month" required>
+            <option value="">-- Select Month --</option>
+            <% ['January','February','March','April','May','June','July','August','September','October','November','December'].forEach(m => { %>
+              <option value="<%= m %>"><%= m %></option>
+            <% }); %>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="year">Year *</label>
+          <input type="number" class="form-control" id="year" name="year" value="<%= new Date().getFullYear() %>" min="2020" max="2030" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="amount">Amount (₹) *</label>
+        <input type="number" class="form-control" id="amount" name="amount" value="<%= allocation.roomId.monthlyFee %>" min="0" step="100" required>
+        <span class="form-hint">Pre-filled with the room's monthly fee</span>
+      </div>
+
+      <div class="btn-group mt-2">
+        <button type="submit" class="btn btn-success btn-lg">💰 Record Payment</button>
+        <a href="/allocations/<%= allocation._id %>" class="btn btn-outline">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>

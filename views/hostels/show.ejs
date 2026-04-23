@@ -1,0 +1,92 @@
+<div class="breadcrumb mb-2">
+  <a href="/">Dashboard</a> <span class="separator">/</span>
+  <a href="/hostels">Hostels</a> <span class="separator">/</span>
+  <%= hostel.name %>
+</div>
+
+<div class="card mb-3">
+  <div class="card-header">
+    <h2>🏢 <%= hostel.name %></h2>
+    <div class="btn-group">
+      <a href="/hostels/<%= hostel._id %>/edit" class="btn btn-primary btn-sm">✏️ Edit</a>
+      <form action="/hostels/<%= hostel._id %>/delete" method="POST" class="delete-form" style="display:inline;">
+        <button type="submit" class="btn btn-danger btn-sm">🗑️ Delete</button>
+      </form>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="detail-grid">
+      <div class="detail-item">
+        <span class="detail-label">Hostel Type</span>
+        <span class="detail-value"><span class="badge type-<%= hostel.type %>"><%= hostel.type %></span></span>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">Address</span>
+        <span class="detail-value"><%= hostel.address %></span>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">Total Rooms</span>
+        <span class="detail-value"><%= hostel.totalRooms %></span>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">Warden Name</span>
+        <span class="detail-value"><%= hostel.warden.name %></span>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">Warden Contact</span>
+        <span class="detail-value"><%= hostel.warden.contact %></span>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">Created</span>
+        <span class="detail-value"><%= new Date(hostel.createdAt).toLocaleDateString('en-IN') %></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header">
+    <h2>🚪 Rooms in this Hostel (<%= rooms.length %>)</h2>
+    <a href="/rooms/add" class="btn btn-outline btn-sm">+ Add Room</a>
+  </div>
+  <div class="card-body no-padding">
+    <% if (rooms.length === 0) { %>
+      <div class="empty-state">
+        <p>No rooms added to this hostel yet.</p>
+      </div>
+    <% } else { %>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Room No</th>
+              <th>Floor</th>
+              <th>Type</th>
+              <th>Capacity</th>
+              <th>Occupied</th>
+              <th>Fee/Month</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% rooms.forEach(r => { %>
+              <tr>
+                <td style="font-weight:600;"><%= r.roomNumber %></td>
+                <td><%= r.floor %></td>
+                <td><span class="badge badge-primary"><%= r.roomType %></span></td>
+                <td><%= r.capacity %></td>
+                <td><%= r.occupiedCount %></td>
+                <td>₹<%= r.monthlyFee.toLocaleString('en-IN') %></td>
+                <td><span class="badge status-<%= r.status %>"><%= r.status %></span></td>
+                <td>
+                  <a href="/rooms/<%= r._id %>" class="btn btn-outline btn-sm">View</a>
+                </td>
+              </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
+    <% } %>
+  </div>
+</div>

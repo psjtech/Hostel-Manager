@@ -1,0 +1,107 @@
+<div class="flex-between mb-2">
+  <div class="breadcrumb">
+    <a href="/">Dashboard</a> <span class="separator">/</span> Complaints
+  </div>
+  <a href="/complaints/add" class="btn btn-primary">+ Raise Complaint</a>
+</div>
+
+<!-- Stats -->
+<div class="stats-grid" style="grid-template-columns: repeat(3, 1fr); margin-bottom:24px;">
+  <div class="stat-card blue">
+    <div class="stat-icon">📋</div>
+    <div class="stat-value"><%= stats.totalOpen %></div>
+    <div class="stat-label">Open</div>
+  </div>
+  <div class="stat-card amber">
+    <div class="stat-icon">🔧</div>
+    <div class="stat-value"><%= stats.totalInProgress %></div>
+    <div class="stat-label">In Progress</div>
+  </div>
+  <div class="stat-card emerald">
+    <div class="stat-icon">✅</div>
+    <div class="stat-value"><%= stats.resolvedThisMonth %></div>
+    <div class="stat-label">Resolved This Month</div>
+  </div>
+</div>
+
+<!-- Filters -->
+<form action="/complaints" method="GET" class="toolbar">
+  <div class="search-box">
+    <span class="search-icon">🔍</span>
+    <input type="text" name="search" placeholder="Search title or student..." value="<%= query.search || '' %>" data-table-search="complaintsTable">
+  </div>
+  <select name="status" class="filter-auto-submit">
+    <option value="">All Status</option>
+    <option value="open" <%= query.status === 'open' ? 'selected' : '' %>>Open</option>
+    <option value="in-progress" <%= query.status === 'in-progress' ? 'selected' : '' %>>In Progress</option>
+    <option value="resolved" <%= query.status === 'resolved' ? 'selected' : '' %>>Resolved</option>
+    <option value="closed" <%= query.status === 'closed' ? 'selected' : '' %>>Closed</option>
+  </select>
+  <select name="category" class="filter-auto-submit">
+    <option value="">All Categories</option>
+    <option value="maintenance" <%= query.category === 'maintenance' ? 'selected' : '' %>>Maintenance</option>
+    <option value="hygiene" <%= query.category === 'hygiene' ? 'selected' : '' %>>Hygiene</option>
+    <option value="security" <%= query.category === 'security' ? 'selected' : '' %>>Security</option>
+    <option value="food" <%= query.category === 'food' ? 'selected' : '' %>>Food</option>
+    <option value="other" <%= query.category === 'other' ? 'selected' : '' %>>Other</option>
+  </select>
+  <select name="priority" class="filter-auto-submit">
+    <option value="">All Priorities</option>
+    <option value="low" <%= query.priority === 'low' ? 'selected' : '' %>>Low</option>
+    <option value="medium" <%= query.priority === 'medium' ? 'selected' : '' %>>Medium</option>
+    <option value="high" <%= query.priority === 'high' ? 'selected' : '' %>>High</option>
+  </select>
+  <select name="hostel" class="filter-auto-submit">
+    <option value="">All Hostels</option>
+    <% hostels.forEach(h => { %>
+      <option value="<%= h._id %>" <%= query.hostel === h._id.toString() ? 'selected' : '' %>><%= h.name %></option>
+    <% }); %>
+  </select>
+</form>
+
+<div class="card">
+  <div class="card-body no-padding">
+    <% if (complaints.length === 0) { %>
+      <div class="empty-state">
+        <div class="empty-icon">📋</div>
+        <h3>No complaints found</h3>
+        <p>No complaints match your current filters.</p>
+      </div>
+    <% } else { %>
+      <div class="table-container">
+        <table id="complaintsTable">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Student</th>
+              <th>Hostel</th>
+              <th>Room</th>
+              <th>Category</th>
+              <th>Priority</th>
+              <th>Status</th>
+              <th>Raised On</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% complaints.forEach(c => { %>
+              <tr>
+                <td><a href="/complaints/<%= c._id %>" style="font-weight:600;"><%= c.title %></a></td>
+                <td><%= c.studentId ? c.studentId.name : 'N/A' %></td>
+                <td><%= c.hostelId ? c.hostelId.name : 'N/A' %></td>
+                <td><%= c.roomId ? c.roomId.roomNumber : 'N/A' %></td>
+                <td><span class="badge badge-gray"><%= c.category %></span></td>
+                <td><span class="badge priority-<%= c.priority %>"><%= c.priority %></span></td>
+                <td><span class="badge status-<%= c.status %>"><%= c.status %></span></td>
+                <td><%= new Date(c.raisedOn).toLocaleDateString('en-IN') %></td>
+                <td>
+                  <a href="/complaints/<%= c._id %>" class="btn btn-outline btn-sm">View</a>
+                </td>
+              </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
+    <% } %>
+  </div>
+</div>

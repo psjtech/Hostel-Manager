@@ -1,0 +1,45 @@
+<div class="breadcrumb mb-2">
+  <a href="/">Dashboard</a> <span class="separator">/</span>
+  <a href="/rooms">Rooms</a> <span class="separator">/</span>
+  Room <%= room.roomNumber %>
+</div>
+
+<div class="card">
+  <div class="card-header">
+    <h2>🚪 Room <%= room.roomNumber %></h2>
+    <div class="btn-group">
+      <a href="/rooms/<%= room._id %>/edit" class="btn btn-primary btn-sm">✏️ Edit</a>
+      <form action="/rooms/<%= room._id %>/delete" method="POST" class="delete-form" style="display:inline;">
+        <button type="submit" class="btn btn-danger btn-sm">🗑️ Delete</button>
+      </form>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="detail-grid">
+      <div class="detail-item">
+        <span class="detail-label">Hostel</span>
+        <span class="detail-value"><%= room.hostelId ? room.hostelId.name : 'N/A' %></span>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">Floor</span>
+        <span class="detail-value"><%= room.floor %></span>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">Room Type</span>
+        <span class="detail-value"><span class="badge badge-primary"><%= room.roomType %></span></span>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">Capacity</span>
+        <span class="detail-value"><%= room.occupiedCount %> / <%= room.capacity %></span>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">Monthly Fee</span>
+        <span class="detail-value">₹<%= room.monthlyFee.toLocaleString('en-IN') %></span>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">Status</span>
+        <span class="detail-value"><span class="badge status-<%= room.status %>"><%= room.status %></span></span>
+      </div>
+    </div>
+  </div>
+</div>

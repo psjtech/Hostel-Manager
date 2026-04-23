@@ -1,0 +1,1 @@
+fetch('https://html.duckduckgo.com/html/?q=good+host+spaces+logo+png').then(r=>r.text()).then(t=>{ const matches = [...t.matchAll(/<img[^>]+src=[\"']([^\"']+)[\"']/ig)]; console.log(matches.slice(0, 10).map(m=>m[1]).join('\n')); }).catch(console.error);

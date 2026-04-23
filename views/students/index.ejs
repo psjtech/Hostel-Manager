@@ -1,0 +1,70 @@
+<div class="flex-between mb-2">
+  <div class="breadcrumb">
+    <a href="/">Dashboard</a> <span class="separator">/</span> Students
+  </div>
+  <a href="/students/add" class="btn btn-primary">+ Add Student</a>
+</div>
+
+<!-- Filters -->
+<form action="/students" method="GET" class="toolbar">
+  <div class="search-box">
+    <span class="search-icon">🔍</span>
+    <input type="text" name="search" placeholder="Search name, ID or email..." value="<%= query.search || '' %>" data-table-search="studentsTable">
+  </div>
+  <input type="text" name="course" placeholder="Filter by course..." value="<%= query.course || '' %>" class="form-control" style="max-width:180px;border-radius:var(--radius-full);padding:9px 14px;font-size:0.82rem;">
+  <select name="year" class="filter-auto-submit">
+    <option value="">All Years</option>
+    <option value="1" <%= query.year === '1' ? 'selected' : '' %>>1st Year</option>
+    <option value="2" <%= query.year === '2' ? 'selected' : '' %>>2nd Year</option>
+    <option value="3" <%= query.year === '3' ? 'selected' : '' %>>3rd Year</option>
+    <option value="4" <%= query.year === '4' ? 'selected' : '' %>>4th Year</option>
+    <option value="5" <%= query.year === '5' ? 'selected' : '' %>>5th Year</option>
+  </select>
+</form>
+
+<div class="card">
+  <div class="card-body no-padding">
+    <% if (students.length === 0) { %>
+      <div class="empty-state">
+        <div class="empty-icon">🎓</div>
+        <h3>No students found</h3>
+        <p>Add students to get started.</p>
+        <a href="/students/add" class="btn btn-primary">+ Add Student</a>
+      </div>
+    <% } else { %>
+      <div class="table-container">
+        <table id="studentsTable">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Student ID</th>
+              <th>Email</th>
+              <th>Course</th>
+              <th>Year</th>
+              <th>Phone</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% students.forEach(s => { %>
+              <tr>
+                <td><a href="/students/<%= s._id %>" style="font-weight:600;"><%= s.name %></a></td>
+                <td><span class="badge badge-primary"><%= s.studentId %></span></td>
+                <td><%= s.email %></td>
+                <td><%= s.course %></td>
+                <td>Year <%= s.year %></td>
+                <td><%= s.phone %></td>
+                <td>
+                  <div class="btn-group">
+                    <a href="/students/<%= s._id %>" class="btn btn-outline btn-sm">View</a>
+                    <a href="/students/<%= s._id %>/edit" class="btn btn-primary btn-sm">Edit</a>
+                  </div>
+                </td>
+              </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
+    <% } %>
+  </div>
+</div>

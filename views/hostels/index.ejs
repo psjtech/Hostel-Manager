@@ -1,0 +1,56 @@
+<div class="flex-between mb-2">
+  <div class="breadcrumb">
+    <a href="/">Dashboard</a> <span class="separator">/</span> Hostels
+  </div>
+  <a href="/hostels/add" class="btn btn-primary">+ Add Hostel</a>
+</div>
+
+<div class="card">
+  <div class="card-header">
+    <h2>🏢 All Hostels</h2>
+  </div>
+  <div class="card-body no-padding">
+    <% if (hostels.length === 0) { %>
+      <div class="empty-state">
+        <div class="empty-icon">🏢</div>
+        <h3>No hostels yet</h3>
+        <p>Start by adding a new hostel to the system.</p>
+        <a href="/hostels/add" class="btn btn-primary">+ Add Hostel</a>
+      </div>
+    <% } else { %>
+      <div class="table-container">
+        <table id="hostelsTable">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Address</th>
+              <th>Warden</th>
+              <th>Total Rooms</th>
+              <th>Available</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% hostels.forEach(h => { %>
+              <tr>
+                <td><a href="/hostels/<%= h._id %>" style="font-weight:600;"><%= h.name %></a></td>
+                <td><span class="badge type-<%= h.type %>"><%= h.type %></span></td>
+                <td><%= h.address %></td>
+                <td><%= h.warden.name %></td>
+                <td><%= h.totalRooms %></td>
+                <td><span class="badge badge-success"><%= h.availableRooms %></span></td>
+                <td>
+                  <div class="btn-group">
+                    <a href="/hostels/<%= h._id %>" class="btn btn-outline btn-sm">View</a>
+                    <a href="/hostels/<%= h._id %>/edit" class="btn btn-primary btn-sm">Edit</a>
+                  </div>
+                </td>
+              </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
+    <% } %>
+  </div>
+</div>

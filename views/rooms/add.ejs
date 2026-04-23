@@ -1,0 +1,69 @@
+<div class="breadcrumb mb-2">
+  <a href="/">Dashboard</a> <span class="separator">/</span>
+  <a href="/rooms">Rooms</a> <span class="separator">/</span> Add Room
+</div>
+
+<div class="card" style="max-width:700px;">
+  <div class="card-header">
+    <h2>🚪 Add New Room</h2>
+  </div>
+  <div class="card-body">
+    <form action="/rooms" method="POST">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="hostelId">Hostel *</label>
+          <select class="form-control" id="hostelId" name="hostelId" required>
+            <option value="">-- Select Hostel --</option>
+            <% hostels.forEach(h => { %>
+              <option value="<%= h._id %>"><%= h.name %></option>
+            <% }); %>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="roomNumber">Room Number *</label>
+          <input type="text" class="form-control" id="roomNumber" name="roomNumber" placeholder="e.g. A-101" required>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="floor">Floor *</label>
+          <input type="number" class="form-control" id="floor" name="floor" min="0" placeholder="e.g. 1" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="roomType">Room Type *</label>
+          <select class="form-control" id="roomType" name="roomType" required>
+            <option value="">-- Select Type --</option>
+            <option value="single">Single</option>
+            <option value="double">Double</option>
+            <option value="triple">Triple</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="capacity">Capacity *</label>
+          <input type="number" class="form-control" id="capacity" name="capacity" min="1" max="4" placeholder="e.g. 2" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="monthlyFee">Monthly Fee (₹) *</label>
+          <input type="number" class="form-control" id="monthlyFee" name="monthlyFee" min="0" step="100" placeholder="e.g. 5000" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="status">Status</label>
+        <select class="form-control" id="status" name="status">
+          <option value="available">Available</option>
+          <option value="maintenance">Under Maintenance</option>
+        </select>
+      </div>
+
+      <div class="btn-group mt-2">
+        <button type="submit" class="btn btn-primary btn-lg">Add Room</button>
+        <a href="/rooms" class="btn btn-outline">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>

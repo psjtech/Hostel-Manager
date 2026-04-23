@@ -1,0 +1,70 @@
+<div class="breadcrumb mb-2">
+  <a href="/">Dashboard</a> <span class="separator">/</span>
+  <a href="/rooms">Rooms</a> <span class="separator">/</span>
+  <a href="/rooms/<%= room._id %>">Room <%= room.roomNumber %></a> <span class="separator">/</span>
+  Edit
+</div>
+
+<div class="card" style="max-width:700px;">
+  <div class="card-header">
+    <h2>✏️ Edit Room <%= room.roomNumber %></h2>
+  </div>
+  <div class="card-body">
+    <form action="/rooms/<%= room._id %>" method="POST">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="hostelId">Hostel *</label>
+          <select class="form-control" id="hostelId" name="hostelId" required>
+            <% hostels.forEach(h => { %>
+              <option value="<%= h._id %>" <%= room.hostelId && room.hostelId.toString() === h._id.toString() ? 'selected' : '' %>><%= h.name %></option>
+            <% }); %>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="roomNumber">Room Number *</label>
+          <input type="text" class="form-control" id="roomNumber" name="roomNumber" value="<%= room.roomNumber %>" required>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="floor">Floor *</label>
+          <input type="number" class="form-control" id="floor" name="floor" min="0" value="<%= room.floor %>" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="roomType">Room Type *</label>
+          <select class="form-control" id="roomType" name="roomType" required>
+            <option value="single" <%= room.roomType === 'single' ? 'selected' : '' %>>Single</option>
+            <option value="double" <%= room.roomType === 'double' ? 'selected' : '' %>>Double</option>
+            <option value="triple" <%= room.roomType === 'triple' ? 'selected' : '' %>>Triple</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="capacity">Capacity *</label>
+          <input type="number" class="form-control" id="capacity" name="capacity" min="1" max="4" value="<%= room.capacity %>" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="monthlyFee">Monthly Fee (₹) *</label>
+          <input type="number" class="form-control" id="monthlyFee" name="monthlyFee" min="0" step="100" value="<%= room.monthlyFee %>" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="status">Status</label>
+        <select class="form-control" id="status" name="status">
+          <option value="available" <%= room.status === 'available' ? 'selected' : '' %>>Available</option>
+          <option value="full" <%= room.status === 'full' ? 'selected' : '' %>>Full</option>
+          <option value="maintenance" <%= room.status === 'maintenance' ? 'selected' : '' %>>Under Maintenance</option>
+        </select>
+      </div>
+
+      <div class="btn-group mt-2">
+        <button type="submit" class="btn btn-primary btn-lg">Update Room</button>
+        <a href="/rooms/<%= room._id %>" class="btn btn-outline">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>

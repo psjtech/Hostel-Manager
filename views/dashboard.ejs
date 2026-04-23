@@ -1,0 +1,122 @@
+<!-- Stats Grid -->
+<div class="stats-grid">
+  <div class="stat-card purple">
+    <div class="stat-icon">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+    </div>
+    <div class="stat-value"><%= stats.totalStudents %></div>
+    <div class="stat-label">Total Students</div>
+  </div>
+  <div class="stat-card emerald">
+    <div class="stat-icon">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 4h3a2 2 0 0 1 2 2v14"/><path d="M2 20h3"/><path d="M13 20h9"/><path d="M10 12v.01"/><path d="M13 4.562v16.157a1 1 0 0 1-1.242.97L5 20V5.562a2 2 0 0 1 1.515-1.94l4-1A2 2 0 0 1 13 4.561Z"/></svg>
+    </div>
+    <div class="stat-value"><%= stats.availableRooms %></div>
+    <div class="stat-label">Rooms Available</div>
+  </div>
+  <div class="stat-card blue">
+    <div class="stat-icon">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15.5 7.5 2.3 2.3a1 1 0 0 0 1.4 0l2.1-2.1a1 1 0 0 0 0-1.4L19 4"/><path d="m21 2-9.6 9.6"/><circle cx="7.5" cy="15.5" r="5.5"/></svg>
+    </div>
+    <div class="stat-value"><%= stats.activeAllocations %></div>
+    <div class="stat-label">Active Allocations</div>
+  </div>
+  <div class="stat-card amber">
+    <div class="stat-icon">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12"/><path d="M6 8h12"/><path d="m6 13 8.5 8"/><path d="M6 13h3c2.24 0 4-1.56 4-3.51V9.5c0-1.95-1.76-3.5-4-3.5H6"/></svg>
+    </div>
+    <div class="stat-value">₹<%= stats.feesThisMonth.toLocaleString('en-IN') %></div>
+    <div class="stat-label">Fees This Month</div>
+  </div>
+  <div class="stat-card red">
+    <div class="stat-icon">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+    </div>
+    <div class="stat-value"><%= stats.openComplaints %></div>
+    <div class="stat-label">Open Complaints</div>
+  </div>
+  <div class="stat-card emerald">
+    <div class="stat-icon">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg>
+    </div>
+    <div class="stat-value"><%= stats.resolvedThisMonth %></div>
+    <div class="stat-label">Resolved This Month</div>
+  </div>
+</div>
+
+<div class="dashboard-sections" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-top: 32px;">
+  
+  <div class="card" style="flex: 1;">
+    <div class="card-header" style="padding: 20px 24px; border-bottom: 1px solid var(--border-light);">
+      <h2 style="font-size: 1.1rem; font-weight: 600; display: flex; align-items: center; gap: 8px;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+        Quick Actions
+      </h2>
+    </div>
+    <div class="card-body" style="padding: 24px; display: flex; flex-direction: column; gap: 12px;">
+      <a href="/students/add" class="btn btn-outline" style="justify-content: flex-start;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> Add Student
+      </a>
+      <a href="/rooms/add" class="btn btn-outline" style="justify-content: flex-start;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 4h3a2 2 0 0 1 2 2v14"/><path d="M2 20h3"/><path d="M13 20h9"/><path d="M10 12v.01"/><path d="M13 4.562v16.157a1 1 0 0 1-1.242.97L5 20V5.562a2 2 0 0 1 1.515-1.94l4-1A2 2 0 0 1 13 4.561Z"/></svg> Add Room
+      </a>
+      <a href="/allocations/add" class="btn btn-outline" style="justify-content: flex-start;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15.5 7.5 2.3 2.3a1 1 0 0 0 1.4 0l2.1-2.1a1 1 0 0 0 0-1.4L19 4"/><path d="m21 2-9.6 9.6"/><circle cx="7.5" cy="15.5" r="5.5"/></svg> Allocate Room
+      </a>
+      <a href="/complaints/add" class="btn btn-outline" style="justify-content: flex-start;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg> Raise Complaint
+      </a>
+      <a href="/allocations/fee-summary" class="btn btn-outline" style="justify-content: flex-start;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12"/><path d="M6 8h12"/><path d="m6 13 8.5 8"/><path d="M6 13h3c2.24 0 4-1.56 4-3.51V9.5c0-1.95-1.76-3.5-4-3.5H6"/></svg> Fee Summary
+      </a>
+    </div>
+  </div>
+
+  <div class="card" style="flex: 2;">
+    <div class="card-header" style="padding: 20px 24px; border-bottom: 1px solid var(--border-light); display: flex; justify-content: space-between; align-items: center;">
+      <h2 style="font-size: 1.1rem; font-weight: 600; display: flex; align-items: center; gap: 8px;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>
+        Recent Complaints
+      </h2>
+      <a href="/complaints" class="btn btn-ghost btn-sm" style="display: flex; align-items: center; gap: 4px;">
+        View All 
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </a>
+    </div>
+    <div class="card-body no-padding">
+      <% if (recentComplaints.length === 0) { %>
+        <div class="empty-state" style="padding: 40px 20px;">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity: 0.2; margin-bottom: 16px;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg>
+          <p style="margin: 0;">No recent complaints.</p>
+        </div>
+      <% } else { %>
+        <div class="table-container">
+          <table style="margin: 0;">
+            <thead>
+              <tr>
+                <th style="padding: 16px 24px;">Title</th>
+                <th>Category</th>
+                <th>Priority</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% recentComplaints.slice(0, 5).forEach(c => { %>
+                <tr>
+                  <td style="padding: 16px 24px;">
+                    <a href="/complaints/<%= c._id %>" style="font-weight: 500;"><%= c.title %></a>
+                    <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;"><%= new Date(c.raisedOn).toLocaleDateString('en-IN') %></div>
+                  </td>
+                  <td><span class="badge badge-gray"><%= c.category %></span></td>
+                  <td><span class="badge priority-<%= c.priority %>"><%= c.priority %></span></td>
+                  <td><span class="badge status-<%= c.status %>"><%= c.status %></span></td>
+                </tr>
+              <% }); %>
+            </tbody>
+          </table>
+        </div>
+      <% } %>
+    </div>
+  </div>
+
+</div>

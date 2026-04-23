@@ -1,0 +1,112 @@
+<div class="breadcrumb mb-2">
+  <a href="/">Dashboard</a> <span class="separator">/</span>
+  <a href="/allocations">Allocations</a> <span class="separator">/</span>
+  Allocation Details
+</div>
+
+<div class="card mb-3">
+  <div class="card-header">
+    <h2>🔑 Allocation Details</h2>
+    <div class="btn-group">
+      <% if (allocation.status === 'active') { %>
+        <a href="/allocations/<%= allocation._id %>/payment" class="btn btn-success btn-sm">💰 Record Payment</a>
+        <form action="/allocations/<%= allocation._id %>/vacate" method="POST" class="vacate-form" style="display:inline;">
+          <button type="submit" class="btn btn-warning btn-sm">Vacate Room</button>
+        </form>
+      <% } %>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="detail-grid">
+      <div class="detail-item">
+        <span class="detail-label">Student</span>
+        <span class="detail-value">
+          <a href="/students/<%= allocation.studentId._id %>"><%= allocation.studentId.name %></a>
+          <span class="badge badge-primary" style="margin-left:6px;"><%= allocation.studentId.studentId %></span>
+        </span>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">Hostel</span>
+        <span class="detail-value"><%= allocation.hostelId ? allocation.hostelId.name : 'N/A' %></span>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">Room</span>
+        <span class="detail-value"><%= allocation.roomId ? allocation.roomId.roomNumber : 'N/A' %> (<%= allocation.roomId ? allocation.roomId.roomType : '' %>)</span>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">Monthly Fee</span>
+        <span class="detail-value">₹<%= allocation.roomId ? allocation.roomId.monthlyFee.toLocaleString('en-IN') : '0' %></span>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">Status</span>
+        <span class="detail-value"><span class="badge status-<%= allocation.status %>"><%= allocation.status %></span></span>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">Allocation Date</span>
+        <span class="detail-value"><%= new Date(allocation.allocationDate).toLocaleDateString('en-IN') %></span>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">Vacating Date</span>
+        <span class="detail-value"><%= allocation.vacatingDate ? new Date(allocation.vacatingDate).toLocaleDateString('en-IN') : 'N/A' %></span>
+      </div>
+    </div>
+
+    <!-- Fee Summary -->
+    <div class="detail-grid mt-3" style="grid-template-columns: repeat(3, 1fr);">
+      <div class="stat-card amber" style="text-align:center;">
+        <div class="stat-value" style="font-size:1.3rem;">₹<%= allocation.totalFeesDue.toLocaleString('en-IN') %></div>
+        <div class="stat-label">Total Fees Due</div>
+      </div>
+      <div class="stat-card emerald" style="text-align:center;">
+        <div class="stat-value" style="font-size:1.3rem;">₹<%= allocation.totalFeesPaid.toLocaleString('en-IN') %></div>
+        <div class="stat-label">Total Fees Paid</div>
+      </div>
+      <div class="stat-card <%= (allocation.totalFeesDue - allocation.totalFeesPaid) > 0 ? 'red' : 'emerald' %>" style="text-align:center;">
+        <div class="stat-value" style="font-size:1.3rem;">₹<%= (allocation.totalFeesDue - allocation.totalFeesPaid).toLocaleString('en-IN') %></div>
+        <div class="stat-label">Balance</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Payment History -->
+<div class="card">
+  <div class="card-header">
+    <h2>💰 Payment History</h2>
+  </div>
+  <div class="card-body no-padding">
+    <% if (!allocation.feesPaid || allocation.feesPaid.length === 0) { %>
+      <div class="empty-state" style="padding:30px;">
+        <p>No payments recorded yet.</p>
+        <% if (allocation.status === 'active') { %>
+          <a href="/allocations/<%= allocation._id %>/payment" class="btn btn-success">Record Payment</a>
+        <% } %>
+      </div>
+    <% } else { %>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Receipt No</th>
+              <th>Month</th>
+              <th>Year</th>
+              <th>Amount</th>
+              <th>Paid On</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% allocation.feesPaid.forEach(f => { %>
+              <tr>
+                <td><span class="badge badge-info"><%= f.receiptNo %></span></td>
+                <td><%= f.month %></td>
+                <td><%= f.year %></td>
+                <td style="font-weight:600;">₹<%= f.amount.toLocaleString('en-IN') %></td>
+                <td><%= new Date(f.paidOn).toLocaleDateString('en-IN') %></td>
+              </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
+    <% } %>
+  </div>
+</div>

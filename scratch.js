@@ -1,0 +1,1 @@
+fetch('https://www.goodhostspaces.com/').then(r=>r.text()).then(t=>{ const match = t.match(/<img[^>]+src=[\"']([^\"']+logo[^\"']+)[\"']/i); console.log(match ? match[1] : 'Not found'); }).catch(console.error);

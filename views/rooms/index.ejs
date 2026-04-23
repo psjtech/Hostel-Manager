@@ -1,0 +1,83 @@
+<div class="flex-between mb-2">
+  <div class="breadcrumb">
+    <a href="/">Dashboard</a> <span class="separator">/</span> Rooms
+  </div>
+  <a href="/rooms/add" class="btn btn-primary">+ Add Room</a>
+</div>
+
+<!-- Filters -->
+<form action="/rooms" method="GET" class="toolbar">
+  <div class="search-box">
+    <span class="search-icon">🔍</span>
+    <input type="text" name="search" placeholder="Search room number..." value="<%= query.search || '' %>" data-table-search="roomsTable">
+  </div>
+  <select name="hostel" class="filter-auto-submit">
+    <option value="">All Hostels</option>
+    <% hostels.forEach(h => { %>
+      <option value="<%= h._id %>" <%= query.hostel === h._id.toString() ? 'selected' : '' %>><%= h.name %></option>
+    <% }); %>
+  </select>
+  <select name="status" class="filter-auto-submit">
+    <option value="">All Status</option>
+    <option value="available" <%= query.status === 'available' ? 'selected' : '' %>>Available</option>
+    <option value="full" <%= query.status === 'full' ? 'selected' : '' %>>Full</option>
+    <option value="maintenance" <%= query.status === 'maintenance' ? 'selected' : '' %>>Maintenance</option>
+  </select>
+  <select name="roomType" class="filter-auto-submit">
+    <option value="">All Types</option>
+    <option value="single" <%= query.roomType === 'single' ? 'selected' : '' %>>Single</option>
+    <option value="double" <%= query.roomType === 'double' ? 'selected' : '' %>>Double</option>
+    <option value="triple" <%= query.roomType === 'triple' ? 'selected' : '' %>>Triple</option>
+  </select>
+</form>
+
+<div class="card">
+  <div class="card-body no-padding">
+    <% if (rooms.length === 0) { %>
+      <div class="empty-state">
+        <div class="empty-icon">🚪</div>
+        <h3>No rooms found</h3>
+        <p>Add rooms to get started.</p>
+        <a href="/rooms/add" class="btn btn-primary">+ Add Room</a>
+      </div>
+    <% } else { %>
+      <div class="table-container">
+        <table id="roomsTable">
+          <thead>
+            <tr>
+              <th>Room No</th>
+              <th>Hostel</th>
+              <th>Floor</th>
+              <th>Type</th>
+              <th>Capacity</th>
+              <th>Occupied</th>
+              <th>Fee/Month</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% rooms.forEach(r => { %>
+              <tr>
+                <td style="font-weight:600;"><%= r.roomNumber %></td>
+                <td><%= r.hostelId ? r.hostelId.name : 'N/A' %></td>
+                <td><%= r.floor %></td>
+                <td><span class="badge badge-primary"><%= r.roomType %></span></td>
+                <td><%= r.capacity %></td>
+                <td><%= r.occupiedCount %>/<%= r.capacity %></td>
+                <td>₹<%= r.monthlyFee.toLocaleString('en-IN') %></td>
+                <td><span class="badge status-<%= r.status %>"><%= r.status %></span></td>
+                <td>
+                  <div class="btn-group">
+                    <a href="/rooms/<%= r._id %>" class="btn btn-outline btn-sm">View</a>
+                    <a href="/rooms/<%= r._id %>/edit" class="btn btn-primary btn-sm">Edit</a>
+                  </div>
+                </td>
+              </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
+    <% } %>
+  </div>
+</div>
