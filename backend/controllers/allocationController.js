@@ -67,8 +67,91 @@ exports.formData = async (req, res) => {
   try {
     const activeStudentIds = await HostelAllocation.find({ status: 'active' }).distinct('studentId');
     const students = await Student.find({ _id: { $nin: activeStudentIds } }).sort({ name: 1 }).lean();
-    const hostels = await Hostel.find().lean();
-    const rooms = await Room.find({ status: 'available' }).populate('hostelId', 'name').sort({ roomNumber: 1 }).lean();
+
+    // Bootstrap dropdown data if database is empty
+    const legacyDefaultNames = [
+      'Maple Residency Hostel',
+      'Cedar Heights Hostel',
+      'Oak View Hostel',
+      'Pine Crest Hostel'
+    ];
+    const requestedNames = [
+      'Girls Hostel',
+      'Student Village',
+      'New Boys Hostel',
+      'Aryabhatta Hostel'
+    ];
+
+    let hostels = await Hostel.find().lean();
+
+    // Migrate previously auto-generated names to requested names
+    if (hostels.length) {
+      const legacyHostels = hostels.filter(h => legacyDefaultNames.includes(h.name));
+      if (legacyHostels.length) {
+        for (let i = 0; i < legacyHostels.length; i += 1) {
+          await Hostel.findByIdAndUpdate(legacyHostels[i]._id, { name: requestedNames[i] || requestedNames[requestedNames.length - 1] });
+        }
+        hostels = await Hostel.find().lean();
+      }
+    }
+
+    if (!hostels.length) {
+      await Hostel.insertMany([
+        {
+          name: 'Girls Hostel',
+          address: 'North Campus Road',
+          totalRooms: 125,
+          type: 'girls',
+          warden: { name: 'Neetika kimta', contact: '9800001002' }
+        },
+        {
+          name: 'Student Village',
+          address: 'Central Academic Block Lane',
+          totalRooms: 125,
+          type: 'mixed',
+          warden: { name: 'Mr. Arjun Mehta', contact: '9800001001' }
+        },
+        {
+          name: 'New Boys Hostel',
+          address: 'East Green Avenue',
+          totalRooms: 125,
+          type: 'boys',
+          warden: { name: 'Mr. Rohan Sharma', contact: '9800001003' }
+        },
+        {
+          name: 'Aryabhatta Hostel',
+          address: 'West Residential Street',
+          totalRooms: 125,
+          type: 'mixed',
+          warden: { name: 'Ms. Neha Verma', contact: '9800001004' }
+        }
+      ]);
+      hostels = await Hostel.find().lean();
+    }
+
+    const roomCount = await Room.countDocuments();
+    if (roomCount === 0 && hostels.length) {
+      const roomDocs = [];
+      for (let i = 1; i <= 500; i += 1) {
+        const hostel = hostels[(i - 1) % hostels.length];
+        roomDocs.push({
+          hostelId: hostel._id,
+          roomNumber: String(i).padStart(3, '0'),
+          floor: Math.floor((i - 1) / 25) + 1,
+          capacity: 3,
+          occupiedCount: 0,
+          roomType: 'triple',
+          monthlyFee: 8500,
+          status: 'available'
+        });
+      }
+      await Room.insertMany(roomDocs);
+    }
+
+    const rooms = await Room.find({ status: 'available' })
+      .populate('hostelId', 'name')
+      .sort({ roomNumber: 1 })
+      .lean();
 
     res.json({ success: true, data: { students, hostels, rooms } });
   } catch (err) {

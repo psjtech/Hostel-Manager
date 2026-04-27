@@ -6,22 +6,34 @@
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",
-    "seed": "node seed.js"
+    "seed": "node seed.js",
+    "predev:all": "npm run stop:ports",
+    "dev:all": "concurrently --kill-others-on-fail --names \"backend,frontend\" \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:backend": "cd backend && npm run dev",
+    "dev:frontend": "cd frontend && npm run dev",
+    "stop:ports": "powershell -NoProfile -ExecutionPolicy Bypass -Command \"$pids = Get-NetTCPConnection -LocalPort 3000,5173 -ErrorAction SilentlyContinue | Select-Object -ExpandProperty OwningProcess -Unique; if ($pids) { $pids | ForEach-Object { Stop-Process -Id $_ -Force -ErrorAction SilentlyContinue } }; exit 0\""
   },
-  "keywords": ["hostel", "management", "express", "mongodb", "mongoose"],
+  "keywords": [
+    "hostel",
+    "management",
+    "express",
+    "mongodb",
+    "mongoose"
+  ],
   "author": "Pratham",
   "license": "ISC",
   "dependencies": {
     "connect-flash": "^0.1.1",
-    "dotenv": "^16.4.5",
+    "dotenv": "^16.6.1",
     "ejs": "^3.1.10",
     "express": "^4.21.0",
     "express-ejs-layouts": "^2.5.1",
     "express-session": "^1.18.0",
-    "mongoose": "^8.6.0",
-    "method-override": "^3.0.0"
+    "method-override": "^3.0.0",
+    "mongoose": "^8.6.0"
   },
   "devDependencies": {
-    "nodemon": "^3.1.4"
+    "nodemon": "^3.1.4",
+    "concurrently": "^8.2.2"
   }
 }
